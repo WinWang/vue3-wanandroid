@@ -1,4 +1,6 @@
 import HttpRequest from "./http"
+import {showFailToast} from "vant";
+
 /**
  *  为什么我们要对axios进行封装？
  * 1.外部依赖库，有停止维护的风险，将项目中使用的方法逻辑封装到一个文件/文件夹中同意导出，方便更换库，有利于维护
@@ -10,6 +12,7 @@ import HttpRequest from "./http"
  * 什么时候需要创建多个实例？
  * 比如baseURL不同，且在这个baseURL下请求多次，这个时候创建一个公用的请求实例能够提升代码的可维护性
  */
+
 
 /**
  * 这里值得特别注意的一点：如何做到支持传入请求/响应拦截器
@@ -34,13 +37,54 @@ const httpRequest = new HttpRequest({
         requestInterceptorCatch: (err) => {
             return err;
         },
-        responseInterceptor: (res) => {
-            return res.data;
+        responseInterceptor: (response) => {
+            //优先执行自己的请求响应拦截器，在执行通用请求request的
+            if (response.status === 200) {
+                if (response.data.errorCode != 0) {
+                    showFailToast(response.data.errorMsg)
+                    return Promise.reject(response)
+                }
+                return Promise.resolve(response.data);
+            } else {
+                return Promise.reject(response);
+            }
         },
-        responseInterceptorCatch: (err) => {
-            return err;
+        responseInterceptorCatch: (error) => {
+            return errorHandler(error);
         },
     },
 });
+
+function errorHandler(error: any) {
+    if (error.response.status) {
+        switch (error.response.status) {
+            // 401: 未登录
+            // 未登录则跳转登录页面，并携带当前页面的路径
+            // 在登录成功后返回当前页面，这一步需要在登录页操作。
+            case 401:
+
+                break;
+            // 403 token过期
+            // 登录过期对用户进行提示
+            // 清除本地token和清空vuex中token对象
+            // 跳转登录页面
+            case 403:
+                showFailToast("登录过期，请重新登录")
+                // 清除token
+                localStorage.removeItem('token');
+
+                break;
+            // 404请求不存在
+            case 404:
+                showFailToast("网络请求不存在")
+                break;
+
+            // 其他错误，直接抛出错误提示
+            default:
+                showFailToast(error.response.data.message)
+        }
+        return Promise.reject(error.response);
+    }
+}
 
 export default httpRequest;

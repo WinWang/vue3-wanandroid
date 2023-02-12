@@ -1,6 +1,7 @@
 import {HomeArticleModel} from "../model/HomeArticleModel";
 import {BannerModelChild} from "../model/BannerModel";
 import httpRequest from "./request"
+import {ApiResponse} from "./http";
 
 
 // let baseUrl = process.env.VUE_APP_BASE_URL;

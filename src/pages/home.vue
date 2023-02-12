@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-    import {onMounted, reactive, Ref, ref} from "vue";
+    import {onMounted, reactive, ref} from "vue";
     import {useRoute, useRouter} from 'vue-router'
     import apiService from "../http/apiService";
     import likeNorUrl from '../assets/img/icon-like-nor.png';
@@ -67,9 +67,10 @@
     const init = async () => {
         //获取banner
         const data = await apiService.getBanner()
-        state.bannerList = state.bannerList.concat(data.data)
         //获取首页列表
         const homeList = await apiService.getHomeList(pageIndex)
+
+        state.bannerList = state.bannerList.concat(data.data)
         state.homeList = state.homeList.concat(homeList.data.datas)
     }
 
