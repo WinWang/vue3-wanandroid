@@ -1,5 +1,6 @@
 import HttpRequest from "./http"
 import {showFailToast} from "vant";
+import 'vant/es/toast/style';
 
 /**
  *  为什么我们要对axios进行封装？
@@ -23,6 +24,7 @@ import {showFailToast} from "vant";
 const httpRequest = new HttpRequest({
     baseURL: "/api",
     timeout: 10 * 1000,
+    checkResultCode: true,
     interceptorHooks: {
         requestInterceptor: (config) => {
             // const token = localCache.getCache('token');
@@ -40,7 +42,9 @@ const httpRequest = new HttpRequest({
         responseInterceptor: (response) => {
             //优先执行自己的请求响应拦截器，在执行通用请求request的
             if (response.status === 200) {
-                if (response.data.errorCode != 0) {
+                // @ts-ignore
+                const checkResultCode = response.config.checkResultCode
+                if (checkResultCode && response.data.errorCode != 0) {
                     showFailToast(response.data.errorMsg)
                     return Promise.reject(response)
                 }

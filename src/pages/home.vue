@@ -42,6 +42,8 @@
     import apiService from "../http/apiService";
     import likeNorUrl from '../assets/img/icon-like-nor.png';
     import likeSelUrl from '../assets/img/icon-like-sel.png';
+    import {showSuccessToast} from "vant";
+    import 'vant/es/toast/style';
 
     const route = useRoute()
     const router = useRouter()
@@ -61,6 +63,10 @@
 
 
     onMounted(() => {
+        setTimeout(() => {
+            showSuccessToast({message:"测试"})
+            console.log(",.,.,.,.")
+        }, 3000)
         init()
     })
 

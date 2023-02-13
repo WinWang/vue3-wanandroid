@@ -1,7 +1,6 @@
 import {HomeArticleModel} from "../model/HomeArticleModel";
 import {BannerModelChild} from "../model/BannerModel";
 import httpRequest from "./request"
-import {ApiResponse} from "./http";
 
 
 // let baseUrl = process.env.VUE_APP_BASE_URL;
@@ -13,7 +12,12 @@ let baseUrl = "";
  * 获取Banner接口
  */
 function getBanner() {
-    return httpRequest.get<Array<BannerModelChild>>({url: baseUrl + "/banner/json"})
+    return httpRequest.get<Array<BannerModelChild>>(
+        {
+            url: baseUrl + "/banner/json",
+            checkResultCode: false
+        }
+    )
 }
 
 
@@ -22,7 +26,11 @@ function getBanner() {
  * @param index
  */
 function getHomeList(index: number) {
-    return httpRequest.get<HomeArticleModel>({url: baseUrl + "/article/list/" + index + "/json"});
+    return httpRequest.get<HomeArticleModel>(
+        {
+            url: baseUrl + "/article/list/" + index + "/json",
+        }
+    );
 }
 
 

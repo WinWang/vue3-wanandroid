@@ -1,5 +1,6 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse,} from "axios";
 import {showFailToast} from "vant";
+import 'vant/es/toast/style';
 
 
 /**
@@ -36,6 +37,7 @@ interface InterceptorHooks {
 
 interface HttpRequestConfig extends AxiosRequestConfig {
     showLoading?: boolean;
+    checkResultCode?: boolean;//是否检验响应结果码
     interceptorHooks?: InterceptorHooks;
 }
 
