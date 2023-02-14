@@ -6,7 +6,6 @@
 <script setup lang="ts">
     import {onMounted, reactive} from "vue"
     import {useRoute, useRouter} from 'vue-router'
-    import apiService from "../http/apiService"
     import {defineOptions} from "unplugin-vue-define-options/macros";
 
     defineOptions({

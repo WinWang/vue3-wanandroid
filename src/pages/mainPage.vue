@@ -1,17 +1,14 @@
 <template>
-    <div class="vertical-layout-fullscreen">
-        <van-nav-bar :title="state.title" fixed></van-nav-bar>
+    <div class="vertical-layout">
+        <van-nav-bar :title="state.title" fixed placeholder></van-nav-bar>
         <div class="main-content">
             <router-view v-slot="{ Component }">
-                <keep-alive v-if="$route.meta.keepAlive">
-                    <div>
-                        <component :is="Component" :key="$route.meta.activeName || $route.name"/>
-                    </div>
+                <keep-alive>
+                    <component :is="Component" :key="$route.name"/>
                 </keep-alive>
             </router-view>
         </div>
-
-        <van-tabbar route v-model="activeIndex" @change="onTabChange">
+        <van-tabbar route v-model="activeIndex" @change="onTabChange" placeholder fixed>
             <van-tabbar-item to="/homePage" icon="home-o">首页</van-tabbar-item>
             <van-tabbar-item to="/systemPage" icon="search">体系</van-tabbar-item>
             <van-tabbar-item to="/wechatPage" icon="friends-o">公众号</van-tabbar-item>
@@ -103,7 +100,6 @@
 
 <style scoped lang="less">
     .main-content {
-        padding-top: 50px;
         flex: auto;
     }
 </style>

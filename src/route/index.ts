@@ -3,12 +3,11 @@ import {createRouter, createWebHistory} from "vue-router"
 // 路由表
 let routes = [
     {
-        path: '/',
         name: 'mainPage',
+        path: '/',
         component: () => import('../pages/mainPage.vue'),
         meta: {
-            keepAlive: true,
-            activeName: 'mainActive'
+            keepAlive: false,
         },
         children: [
             {
@@ -16,8 +15,7 @@ let routes = [
                 path: "/homePage",
                 component: () => import("../pages/homePage.vue"),
                 meta: {
-                    keepAlive: true,
-                    activeName: 'mainActive'
+                    keepAlive: true
                 },
             },
             {
@@ -25,8 +23,7 @@ let routes = [
                 path: "/projectPage",
                 component: () => import("../pages/projectPage.vue"),
                 meta: {
-                    keepAlive: true,
-                    activeName: 'mainActive'
+                    keepAlive: true
                 },
             },
             {
@@ -34,8 +31,7 @@ let routes = [
                 path: "/siteMapPage",
                 component: () => import("../pages/sitemapPage.vue"),
                 meta: {
-                    keepAlive: true,
-                    activeName: 'mainActive'
+                    keepAlive: true
                 },
             },
             {
@@ -43,8 +39,7 @@ let routes = [
                 path: "/wechatPage",
                 component: () => import("../pages/wechatPage.vue"),
                 meta: {
-                    keepAlive: true,
-                    activeName: 'mainActive'
+                    keepAlive: true
                 },
             },
             {
@@ -52,8 +47,7 @@ let routes = [
                 path: "/systemPage",
                 component: () => import("../pages/systemPage.vue"),
                 meta: {
-                    keepAlive: true,
-                    activeName: 'mainActive'
+                    keepAlive: true
                 },
             },
 

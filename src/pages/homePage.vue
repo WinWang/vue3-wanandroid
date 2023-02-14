@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-    import {onMounted, reactive, ref} from "vue";
+    import {onActivated, onMounted, reactive, ref} from "vue";
     import {useRoute, useRouter} from 'vue-router'
     import apiService from "../http/apiService";
     import likeNorUrl from '../assets/img/icon-like-nor.png';
@@ -66,6 +66,10 @@
     onMounted(() => {
         init()
         console.log("初始化：>>>>>首页")
+    })
+
+    onActivated(() => {
+        console.log("onActivated执行")
     })
 
     const init = () => {

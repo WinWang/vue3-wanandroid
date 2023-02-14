@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-    import {onMounted, reactive} from "vue";
+    import {onActivated, onMounted, reactive} from "vue";
     import {useRoute, useRouter} from 'vue-router'
     import apiService from "../http/apiService";
     import {defineOptions} from "unplugin-vue-define-options/macros";
@@ -18,6 +18,7 @@
     onMounted(() => {
         console.log("初始化：>>>>>项目")
     })
+
 
 </script>
 

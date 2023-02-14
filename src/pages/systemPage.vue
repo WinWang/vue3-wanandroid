@@ -4,7 +4,7 @@
 
 <!--/*******************************Script-Start**********************************************/-->
 <script setup lang="ts">
-    import {onMounted, reactive} from "vue"
+    import {onActivated, onMounted, reactive} from "vue"
     import {useRoute, useRouter} from 'vue-router'
     import apiService from "../http/apiService"
 
@@ -19,6 +19,7 @@
     onMounted(() => {
         console.log("初始化：>>>>>系统")
     })
+
 
 </script>
 <!--/********************************Script-End*********************************************/-->
