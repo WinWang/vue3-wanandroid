@@ -3,8 +3,10 @@
         <van-nav-bar :title="state.title" fixed></van-nav-bar>
         <div class="main-content">
             <router-view v-slot="{ Component }">
-                <keep-alive>
-                    <component :is="Component" :key="$route.name"/>
+                <keep-alive v-if="$route.meta.keepAlive">
+                    <div>
+                        <component :is="Component" :key="$route.meta.activeName || $route.name"/>
+                    </div>
                 </keep-alive>
             </router-view>
         </div>

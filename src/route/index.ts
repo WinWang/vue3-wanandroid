@@ -7,7 +7,8 @@ let routes = [
         name: 'mainPage',
         component: () => import('../pages/mainPage.vue'),
         meta: {
-            keepAlive: true
+            keepAlive: true,
+            activeName: 'mainActive'
         },
         children: [
             {
@@ -15,7 +16,8 @@ let routes = [
                 path: "/homePage",
                 component: () => import("../pages/homePage.vue"),
                 meta: {
-                    keepAlive: true
+                    keepAlive: true,
+                    activeName: 'mainActive'
                 },
             },
             {
@@ -23,7 +25,8 @@ let routes = [
                 path: "/projectPage",
                 component: () => import("../pages/projectPage.vue"),
                 meta: {
-                    keepAlive: true
+                    keepAlive: true,
+                    activeName: 'mainActive'
                 },
             },
             {
@@ -31,7 +34,8 @@ let routes = [
                 path: "/siteMapPage",
                 component: () => import("../pages/sitemapPage.vue"),
                 meta: {
-                    keepAlive: true
+                    keepAlive: true,
+                    activeName: 'mainActive'
                 },
             },
             {
@@ -39,7 +43,8 @@ let routes = [
                 path: "/wechatPage",
                 component: () => import("../pages/wechatPage.vue"),
                 meta: {
-                    keepAlive: true
+                    keepAlive: true,
+                    activeName: 'mainActive'
                 },
             },
             {
@@ -47,7 +52,8 @@ let routes = [
                 path: "/systemPage",
                 component: () => import("../pages/systemPage.vue"),
                 meta: {
-                    keepAlive: true
+                    keepAlive: true,
+                    activeName: 'mainActive'
                 },
             },
 
