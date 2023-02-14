@@ -12,6 +12,7 @@
     "axios": "^1.2.2",
     "pinia": "^2.0.30",
     "qs": "^6.11.0",
+    "unplugin-vue-define-options": "^1.2.1",
     "vant": "^4.0.10",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"

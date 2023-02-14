@@ -1,5 +1,5 @@
 <template>
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+    <van-pull-refresh v-model:loading="loading" @refresh="onRefresh">
         <div class="vertical-layout">
             <van-swipe :autoplay="3000">
                 <van-swipe-item v-for="(item, index) in state.bannerList" :key="index">
@@ -42,9 +42,11 @@
     import apiService from "../http/apiService";
     import likeNorUrl from '../assets/img/icon-like-nor.png';
     import likeSelUrl from '../assets/img/icon-like-sel.png';
-    import {showSuccessToast} from "vant";
     import 'vant/es/toast/style';
 
+    defineOptions({
+        name: 'homePage'
+    })
     const route = useRoute()
     const router = useRouter()
     /************变量声明******************/
@@ -52,36 +54,55 @@
         bannerList: [],
         homeList: []
     })
-    const isLoading = ref(false)
-    const refreshing = ref(false)
-    const finished = ref(false)
+    const loading = ref<boolean>(false)
+    const refreshing = ref<boolean>(false)
+    const finished = ref<boolean>(false)
 
     /************变量声明******************/
     const likeNor = likeNorUrl
     const likeSel = likeSelUrl
     let pageIndex = 0
 
-
     onMounted(() => {
-        setTimeout(() => {
-            showSuccessToast({message:"测试"})
-            console.log(",.,.,.,.")
-        }, 3000)
         init()
+        console.log("初始化：>>>>>首页")
     })
 
-    const init = async () => {
-        //获取banner
-        const data = await apiService.getBanner()
-        //获取首页列表
-        const homeList = await apiService.getHomeList(pageIndex)
+    const init = () => {
+        getBanner()
+        getHomeList()
+    }
 
+    /**
+     * 获取Banner
+     */
+    const getBanner = async () => {
+        const data = await apiService.getBanner()
         state.bannerList = state.bannerList.concat(data.data)
+    }
+
+    /**
+     * 获取首页列表
+     */
+    const getHomeList = async () => {
+        const homeList = await apiService.getHomeList(pageIndex)
         state.homeList = state.homeList.concat(homeList.data.datas)
     }
 
+    /**
+     * 刷新方法
+     */
     const onRefresh = () => {
+        pageIndex = 0
+        getHomeList()
+    }
 
+    /**
+     * 加载更多
+     */
+    const onLoad = async () => {
+        pageIndex++;
+        await getHomeList()
     }
 
 

@@ -4,20 +4,53 @@ import {createRouter, createWebHistory} from "vue-router"
 let routes = [
     {
         path: '/',
-        name: 'main',
-        component: () => import('../pages/main.vue'),
+        name: 'mainPage',
+        component: () => import('../pages/mainPage.vue'),
         meta: {
             keepAlive: true
         },
         children: [
             {
-                name: "home",
-                path: "/",
-                component: () => import("../pages/home.vue"),
+                name: "homePage",
+                path: "/homePage",
+                component: () => import("../pages/homePage.vue"),
                 meta: {
                     keepAlive: true
                 },
-            }
+            },
+            {
+                name: "projectPage",
+                path: "/projectPage",
+                component: () => import("../pages/projectPage.vue"),
+                meta: {
+                    keepAlive: true
+                },
+            },
+            {
+                name: "siteMapPage",
+                path: "/siteMapPage",
+                component: () => import("../pages/sitemapPage.vue"),
+                meta: {
+                    keepAlive: true
+                },
+            },
+            {
+                name: "wechatPage",
+                path: "/wechatPage",
+                component: () => import("../pages/wechatPage.vue"),
+                meta: {
+                    keepAlive: true
+                },
+            },
+            {
+                name: "systemPage",
+                path: "/systemPage",
+                component: () => import("../pages/systemPage.vue"),
+                meta: {
+                    keepAlive: true
+                },
+            },
+
         ]
     }
 ]
