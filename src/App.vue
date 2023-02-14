@@ -2,10 +2,15 @@
     <div id="app">
         <!-- 这是vue3的写法，与vue2的写法有所区别，如果这里使用vue2.x写法，会有警告 -->
         <router-view v-slot="{ Component }">
-            <keep-alive>
-                <component :is="Component" :key="$route.name" v-if="$route.meta.keepAlive"/>
+            <keep-alive v-if="$route.meta.keepAlive">
+                <div>
+                    <component :is="Component" :key="$route.meta.activeName || $route.name" />
+                </div>
             </keep-alive>
-            <component :is="Component" :key="$route.name" v-if="!$route.meta.keepAlive"/>
+            <div v-if="!$route.meta.keepAlive">
+                <component :is="Component" :key="$route.name" />
+            </div>
+            
         </router-view>
     </div>
 </template>
