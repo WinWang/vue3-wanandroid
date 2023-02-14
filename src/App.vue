@@ -1,6 +1,5 @@
 <template>
     <div id="app">
-        {{ $route?.meta?.activeName }}
         <!-- 这是vue3的写法，与vue2的写法有所区别，如果这里使用vue2.x写法，会有警告 -->
         <router-view v-slot="{ Component }">
             <keep-alive v-if="$route.meta.keepAlive">
