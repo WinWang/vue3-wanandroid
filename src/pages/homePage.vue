@@ -7,7 +7,7 @@
                 </van-swipe-item>
             </van-swipe>
             <van-list
-                v-model="refreshing"
+                v-model:loading="refreshing"
                 :finished="finished"
                 finished-text="没有更多了"
                 @load="onLoad"
@@ -16,7 +16,7 @@
                     <template v-for="(item,index) in state.homeList">
                         <div @click="toDetail(item)">
                             <van-row type="flex" justify="space-between">
-                                <div class="list-name">{{ item.shareUser == "" ? item.author : item.shareUser }}</div>
+                                <div class="list-name">{{ item.shareUser !== "" ? item.shareUser : item.author }}</div>
                                 <div class="list-data">{{ item.niceShareDate }}</div>
                             </van-row>
                             <div class="list-title">{{ item.title }}</div>
@@ -74,7 +74,6 @@
 
     const init = () => {
         getBanner()
-        getHomeList()
     }
 
     /**
@@ -83,6 +82,7 @@
     const getBanner = async () => {
         const data = await apiService.getBanner()
         state.bannerList = state.bannerList.concat(data.data)
+        loading.value = false
     }
 
     /**
@@ -91,14 +91,19 @@
     const getHomeList = async () => {
         const homeList = await apiService.getHomeList(pageIndex)
         state.homeList = state.homeList.concat(homeList.data.datas)
+        finished.value = homeList.data.datas && homeList.data.datas.length % 10 != 0;
+        loading.value = false
+        refreshing.value = false
     }
 
     /**
      * 刷新方法
      */
-    const onRefresh = () => {
+    const onRefresh = async () => {
         pageIndex = 0
-        getHomeList()
+        await getBanner()
+        await getHomeList()
+        refreshing.value = false
     }
 
     /**

@@ -1,13 +1,13 @@
 <template>
     <div id="app">
         <!-- 这是vue3的写法，与vue2的写法有所区别，如果这里使用vue2.x写法，会有警告 -->
-        {{ ">>>" + $route.name }}
         <router-view v-slot="{ Component , route}">
-            {{ ">>>>>" + getFirstLevelRoute(route).name }}
             <keep-alive>
-                <component :is="Component" :key="getFirstLevelRoute(route).name" v-if="$route.meta.keepAlive"/>
+                <component :is="Component" :key="getFirstLevelRoute(route).name"
+                           v-if="getFirstLevelRoute(route).meta.keepAlive"/>
             </keep-alive>
-            <component :is="Component" :key="getFirstLevelRoute(route).name" v-if="!$route.meta.keepAlive"/>
+            <component :is="Component" :key="getFirstLevelRoute(route).name"
+                       v-if="!getFirstLevelRoute(route).meta.keepAlive"/>
         </router-view>
     </div>
 </template>
@@ -47,6 +47,6 @@
 </script>
 
 
-<style scoped>
+<style scoped lang="less">
 
 </style>

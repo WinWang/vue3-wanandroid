@@ -7,7 +7,7 @@ let routes = [
         path: '/',
         component: () => import('../pages/mainPage.vue'),
         meta: {
-            keepAlive: false,
+            keepAlive: true,
         },
         children: [
             {
@@ -15,7 +15,7 @@ let routes = [
                 path: "/homePage",
                 component: () => import("../pages/homePage.vue"),
                 meta: {
-                    keepAlive: true
+                    keepAlive: false
                 },
             },
             {
