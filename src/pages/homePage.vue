@@ -1,5 +1,5 @@
 <template>
-    <van-pull-refresh v-model:loading="loading" @refresh="onRefresh">
+    <van-pull-refresh v-model="loading" @refresh="onRefresh">
         <div class="vertical-layout">
             <van-swipe :autoplay="3000">
                 <van-swipe-item v-for="(item, index) in state.bannerList" :key="index">
@@ -7,7 +7,7 @@
                 </van-swipe-item>
             </van-swipe>
             <van-list
-                v-model:loading="refreshing"
+                v-model:loading=loading
                 :finished="finished"
                 finished-text="没有更多了"
                 @load="onLoad"
@@ -55,7 +55,6 @@
         homeList: []
     })
     const loading = ref<boolean>(false)
-    const refreshing = ref<boolean>(false)
     const finished = ref<boolean>(false)
 
     /************变量声明******************/
@@ -93,17 +92,15 @@
         state.homeList = state.homeList.concat(homeList.data.datas)
         finished.value = state.homeList.length == homeList.data.total
         loading.value = false
-        refreshing.value = false
     }
 
     /**
      * 刷新方法
      */
-    const onRefresh = async () => {
+    const onRefresh = () => {
         pageIndex = 0
-        await getBanner()
-        await getHomeList()
-        refreshing.value = false
+        getBanner()
+        getHomeList()
     }
 
     /**

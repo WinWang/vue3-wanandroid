@@ -4,6 +4,8 @@ import httpRequest from "./request"
 import {SystemModel} from "../model/SystemModel";
 import {WechatTabModel} from "../model/WechatTabModel";
 import {SiteModel} from "../model/SiteModel";
+import {ProjectTypeModel} from "../model/ProjectTypeModel";
+import {ProjectListModel} from "../model/ProjectListModel";
 
 
 // let baseUrl = process.env.VUE_APP_BASE_URL;
@@ -82,6 +84,22 @@ function login(phone: string, password: string) {
 }
 
 
+/**
+ * 获取项目分类
+ */
+function getProjectType() {
+    return httpRequest.get<Array<ProjectTypeModel>>({url: "/project/tree/json"})
+}
+
+
+/**
+ * 获取项目列表
+ */
+function getProjectList(id: number, index: number) {
+    return httpRequest.get<ProjectListModel>({url: "/project/list/" + index + "/json?cid=" + id})
+}
+
+
 export default {
     getBanner,
     getHomeList,
@@ -90,5 +108,7 @@ export default {
     getChatHistory,
     getSite,
     login,
+    getProjectType,
+    getProjectList,
 }
 
