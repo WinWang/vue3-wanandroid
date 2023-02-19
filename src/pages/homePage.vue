@@ -32,8 +32,7 @@
             </van-list>
         </div>
     </van-pull-refresh>
-
-    <van-loading color="#1989fa" v-if="loading" class="loading-data"/>
+    <!--    <van-loading color="#1989fa" v-if="loading" class="loading-data"/>-->
 </template>
 
 <script setup lang="ts">
@@ -43,6 +42,7 @@
     import likeNorUrl from '../assets/img/icon-like-nor.png';
     import likeSelUrl from '../assets/img/icon-like-sel.png';
     import 'vant/es/toast/style';
+    import {HomeArticleModelDatas} from "../model/HomeArticleModel";
 
     defineOptions({
         name: 'homePage'
@@ -61,15 +61,15 @@
     /************变量声明******************/
     const likeNor = likeNorUrl
     const likeSel = likeSelUrl
-    let pageIndex = 0
+    let pageIndex = -1
 
     onMounted(() => {
         init()
-        console.log("初始化：>>>>>首页")
+
     })
 
     onActivated(() => {
-        console.log("onActivated执行")
+
     })
 
     const init = () => {
@@ -91,7 +91,7 @@
     const getHomeList = async () => {
         const homeList = await apiService.getHomeList(pageIndex)
         state.homeList = state.homeList.concat(homeList.data.datas)
-        finished.value = homeList.data.datas && homeList.data.datas.length % 10 != 0;
+        finished.value = state.homeList.length == homeList.data.total
         loading.value = false
         refreshing.value = false
     }
@@ -112,6 +112,14 @@
     const onLoad = async () => {
         pageIndex++;
         await getHomeList()
+    }
+
+    /**
+     * 条目点击
+     * @param item
+     */
+    const toDetail = (item: HomeArticleModelDatas) => {
+        window.open(item.link)
     }
 
 

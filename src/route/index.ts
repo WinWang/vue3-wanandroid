@@ -15,7 +15,7 @@ let routes = [
                 path: "/homePage",
                 component: () => import("../pages/homePage.vue"),
                 meta: {
-                    keepAlive: false
+                    keepAlive: true
                 },
             },
             {
@@ -50,8 +50,15 @@ let routes = [
                     keepAlive: true
                 },
             },
-
         ]
+    },
+    {
+        name: "loginPage",
+        path: "/loginPage",
+        component: () => import('../pages/loginPage.vue'),
+        meta: {
+            keepAlive: true
+        }
     }
 ]
 

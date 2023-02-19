@@ -14,6 +14,13 @@
     -webkit-text-size-adjust: 100%;
 }
 
+:root:root {
+    --van-nav-bar-background: #ff6900;
+    --van-nav-bar-text-color: white;
+    --van-nav-bar-title-text-color: white
+}
+
+
 a {
     font-weight: 500;
     color: #646cff;

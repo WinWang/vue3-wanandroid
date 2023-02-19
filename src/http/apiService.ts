@@ -3,6 +3,7 @@ import {BannerModelChild} from "../model/BannerModel";
 import httpRequest from "./request"
 import {SystemModel} from "../model/SystemModel";
 import {WechatTabModel} from "../model/WechatTabModel";
+import {SiteModel} from "../model/SiteModel";
 
 
 // let baseUrl = process.env.VUE_APP_BASE_URL;
@@ -60,11 +61,34 @@ function getChatHistory(id: number, index: number) {
 }
 
 
+/**
+ * 获取导航数据
+ */
+function getSite() {
+    return httpRequest.get<Array<SiteModel>>({url: "/navi/json"});
+}
+
+
+/**
+ * 登录接口
+ * @param phone
+ * @param password
+ */
+function login(phone: string, password: string) {
+    return httpRequest.post({
+        url: "/user/login",
+        params: {"username": phone, "password": password}
+    })
+}
+
+
 export default {
     getBanner,
     getHomeList,
     getSystem,
     getWeChatTab,
     getChatHistory,
+    getSite,
+    login,
 }
 

@@ -1,7 +1,8 @@
 <template>
     <div class="vertical-layout">
-        <van-tabs color="#d4237a" line-height="2px" title-active-color="#d4237a" title-inactive-color="#333" sticky
-                  swipeable v-model="tabActive" @click-tab="changeTab" :ellipsis=isEllipsis :offset-top="45">
+        <van-tabs color="#ff6900" line-height="2px" title-active-color="#ff6900" title-inactive-color="#333" sticky
+                  swipeable v-model:active="tabActive" @click-tab="changeTab" :ellipsis=isEllipsis
+                  :offset-top=toolHeight>
             <van-tab v-for="(tab,index) in state.wechatTab" :title="tab.name" :key="index">
             </van-tab>
 
@@ -14,16 +15,15 @@
                 <div style="width: 100vw">
                     <template v-for="(item,index) in state.chatList">
                         <div>
-                            <div style="height: 20px" v-if="index==0"></div>
+                            <div style="height: 20px" v-if="index===0"></div>
                             <van-row type="flex" justify="space-between" @click="itemClick(item)">
-                                <div class="list-name">{{ item.shareUser == "" ? item.author : item.shareUser }}</div>
+                                <div class="list-name">{{ item.shareUser === "" ? item.author : item.shareUser }}</div>
                                 <div class="list-data">{{ item.niceShareDate }}</div>
                             </van-row>
                             <div class="list-title" @click="itemClick(item)">{{ item.title }}</div>
                             <van-row type="flex" justify="space-between" @click="itemClick(item)">
                                 <div class="list-type">{{ item.superChapterName }}/{{ item.chapterName }}</div>
                                 <img class="list-icon" :src="item.collect?likeSel:likeNor"/>
-
                             </van-row>
                             <van-divider></van-divider>
                         </div>
@@ -36,7 +36,7 @@
 
 <!--/*******************************Script-Start**********************************************/-->
 <script setup lang="ts">
-    import {onMounted, reactive, ref} from "vue"
+    import {inject, onMounted, reactive, ref} from "vue"
     import {useRoute, useRouter} from 'vue-router'
     import apiService from "../http/apiService"
     import {defineOptions} from "unplugin-vue-define-options/macros";
@@ -59,6 +59,7 @@
     const refreshing = ref<boolean>(false)
     const finished = ref<boolean>(false)
     const isEllipsis = ref<boolean>(false)
+    const toolHeight = inject("toolBarHeight")
 
     const likeNor = likeNorUrl
     const likeSel = likeSelUrl
@@ -84,9 +85,8 @@
         } else {
             state.chatList = state.chatList.concat(result.data.datas)
         }
-        if (state.chatList.length == result.data.total) {
-            finished.value = true
-        }
+        finished.value = (state.chatList.length === result.data.total)
+        loading.value = false
     }
 
     const changeTab = (index: any) => {
@@ -106,6 +106,11 @@
             await getWechatHistory()
         }
     }
+
+    const itemClick = (item: HomeArticleModelDatas) => {
+        window.open(item.link)
+    }
+
 
 </script>
 <!--/********************************Script-End*********************************************/-->
