@@ -35,7 +35,7 @@
             <div class="drawer-wrap">
                 <div class="top-wrap" @click="doLogin">
                     <img class="avator-style" src="../assets/img/avator.jpg"/>
-                    <div class="user-name">{{ getUserName == '' ? '登录/注册' : getUserName }}</div>
+                    <div class="user-name">{{ !userStore.hasLogin ? '登录/注册' : userStore.userInfo.username }}</div>
                 </div>
 
                 <van-cell-group>
@@ -54,10 +54,13 @@
     import {onActivated, onMounted, reactive, ref, provide} from "vue";
     import {useRoute, useRouter} from 'vue-router'
     import {defineOptions} from "unplugin-vue-define-options/macros";
+    import {useUserStore} from "../store/userStore";
+    import {showToast} from "vant";
 
     defineOptions({
         name: "mainPage"
     })
+    const userStore = useUserStore()
     const route = useRoute()
     const router = useRouter()
     const state = reactive({
@@ -110,16 +113,14 @@
     }
 
     const doLogin = () => {
-        // if (!this.$store.getters.getLoginState) {
-        //     this.$router.push({
-        //         path: "/LoginView"
-        //     })
-        // } else {
-        //     this.$toast.fail("您已经登录了")
-        // }
-        router.push({
-            path: "/loginPage"
-        })
+        if (!userStore.getLoginState) {
+            router.push({
+                path: "/loginPage"
+            })
+            showPop.value = false
+        } else {
+            showToast("您已经登录了")
+        }
     }
 
 

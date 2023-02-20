@@ -67,7 +67,7 @@
     const likeNor = likeNorUrl
     const likeSel = likeSelUrl
     let pid = -1
-    let pageIndex = -1
+    let pageIndex = 0
 
     onMounted(() => {
         getTreeList()
@@ -80,13 +80,13 @@
         const treeData = await apiService.getProjectType()
         state.projectTList = treeData.data;
         pid = treeData.data[0].id;
-        getePList()
+        await getPList()
     }
 
     /**
      * 获取项目列表
      */
-    const getePList = async () => {
+    const getPList = async () => {
         await apiService.getProjectList(pid, pageIndex)
             .then(res => {
                 if (res.data.datas.length > 0) {
@@ -113,7 +113,7 @@
         loading.value = false;
         finished.value = false;
         pid = state.projectTList[index].id;
-        getePList()
+        getPList()
     }
 
     /**
@@ -122,7 +122,7 @@
     const onLoad = async () => {
         if (pid > 0) {
             pageIndex++;
-            await getePList()
+            await getPList()
         }
     }
 

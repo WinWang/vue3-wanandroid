@@ -1,6 +1,7 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse,} from "axios";
 import {showFailToast} from "vant";
 import 'vant/es/toast/style';
+import {errorHandler} from "./request";
 
 
 /**
@@ -81,7 +82,8 @@ class HttpRequest {
                     resolve(res);
                 })
                 .catch((err) => {
-                    showFailToast("网络请求异常")
+                    // showFailToast("网络请求异常")
+                    errorHandler(err)
                     reject(err);
                 });
         });

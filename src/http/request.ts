@@ -54,12 +54,13 @@ const httpRequest = new HttpRequest({
             }
         },
         responseInterceptorCatch: (error) => {
+            console.log("RequestError", error.toString())
             return errorHandler(error);
         },
     },
 });
 
-function errorHandler(error: any) {
+export function errorHandler(error: any) {
     if (error.response.status) {
         switch (error.response.status) {
             // 401: 未登录

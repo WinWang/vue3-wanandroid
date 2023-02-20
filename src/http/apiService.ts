@@ -6,6 +6,7 @@ import {WechatTabModel} from "../model/WechatTabModel";
 import {SiteModel} from "../model/SiteModel";
 import {ProjectTypeModel} from "../model/ProjectTypeModel";
 import {ProjectListModel} from "../model/ProjectListModel";
+import {LoginModel} from "../model/LoginModel";
 
 
 // let baseUrl = process.env.VUE_APP_BASE_URL;
@@ -77,7 +78,7 @@ function getSite() {
  * @param password
  */
 function login(phone: string, password: string) {
-    return httpRequest.post({
+    return httpRequest.post<LoginModel>({
         url: "/user/login",
         params: {"username": phone, "password": password}
     })

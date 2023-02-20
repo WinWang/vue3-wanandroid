@@ -31,9 +31,11 @@
     import apiService from "../http/apiService"
     import {showFailToast, showSuccessToast} from "vant";
     import 'vant/es/toast/style';
+    import {useUserStore} from "../store/userStore";
 
     const route = useRoute()
     const router = useRouter()
+    const userStore = useUserStore()
     const state = reactive({})
     const phone = ref("")
     const password = ref("")
@@ -47,7 +49,9 @@
             showFailToast("请输入账号或密码")
             return;
         }
-        await apiService.login(phone.value, password.value)
+        const loginInfo = await apiService.login(phone.value, password.value)
+        userStore.setUserInfo(loginInfo.data)
+        userStore.setLoginState(true)
         showSuccessToast("登录成功")
         router.back()
         // .then(res => {
