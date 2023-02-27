@@ -5,8 +5,10 @@ import router from "./route"
 import "lib-flexible"
 import {Lazyload} from "vant";
 import {createPinia} from "pinia";
+import piniaPersist from 'pinia-plugin-persist'
 
 const pinia = createPinia()
+pinia.use(piniaPersist)
 const app = createApp(App)
 app.use(router)
 app.use(Lazyload)

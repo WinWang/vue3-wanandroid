@@ -52,12 +52,22 @@ let routes = [
             },
         ]
     },
+    // 登陆页面
     {
         name: "loginPage",
         path: "/loginPage",
         component: () => import('../pages/loginPage.vue'),
         meta: {
-            keepAlive: true
+            keepAlive: false
+        }
+    },
+    // 注册页面
+    {
+        name: "registerPage",
+        path: "/registerPage",
+        component: () => import('../pages/registerPage.vue'),
+        meta: {
+            keepAlive: false
         }
     }
 ]

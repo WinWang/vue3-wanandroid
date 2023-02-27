@@ -33,6 +33,10 @@ export const useUserStore = defineStore("userInfo", {
                 this.userInfo = <LoginModel>{}
             }
         }
+    },
+
+    persist: {
+        enabled: true
     }
 
 

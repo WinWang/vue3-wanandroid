@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^1.2.2",
     "pinia": "^2.0.30",
+    "pinia-plugin-persist": "^1.0.0",
     "qs": "^6.11.0",
     "unplugin-vue-define-options": "^1.2.1",
     "vant": "^4.0.10",

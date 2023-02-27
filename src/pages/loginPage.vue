@@ -14,12 +14,12 @@
             <div class="login-button" @click="doLogin()">
                 登 录
             </div>
-            <div class="register-button" @click="$router.push({path:'/RegisterView'})">
+            <div class="register-button" @click="$router.push({path:'/registerPage'})">
                 注 册
             </div>
         </div>
 
-        <van-icon name="arrow-left" color="#ff6900" style="position: absolute;left: 10px;top: 20px" size="20px"
+        <van-icon name="arrow-left" color="#fff" style="position: absolute;left: 10px;top: 20px" size="20px"
                   @click="$router.back()"/>
     </div>
 </template>
