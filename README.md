@@ -5,7 +5,18 @@
 2、vue3中keepAlive在项目中的运用以及router嵌套keepAlive的处理方式<br>
 3、vue3中项目针对移动端屏幕适配<br>
 4、axios中整合TypeScript针对请求的范型封装（例如：单个接口是否需要登陆判断，通过请求结果码判断是否需要异常响应等；通过HttpConfig配置）<br>
-5、pinia和plugin-pinia-persist插件在项目中的运用（类似vuex的使用，记录用户登陆状态以及用户信息等）<br><br>
+5、pinia和plugin-pinia-persist插件在项目中的运用（类似vuex的使用，记录用户登陆状态以及用户信息等）<br>
+
+## 其他一些学习练手的项目
+
+Flutter版本开眼App链接(getx+retrofit+dio+jsonserialize+自定义控件demo)：https://github.com/WinWang/open_eye <br>
+
+React版本的开眼App链接(React18+React-Vant+Mobx+axios)：https://github.com/WinWang/react-oepn-eye <br>
+
+如果想上手Vue的同学也可以参照看看以前基于Vue2+vue-Vant+axios的WanAndroid项目<br/>
+
+Vue2版本WanAndroid项目链接：https://github.com/WinWang/Vue-WanAndroid <br>
+
 
 <div style="display: flex; flex-direction: row">
 <img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/1.png" width="33%">
