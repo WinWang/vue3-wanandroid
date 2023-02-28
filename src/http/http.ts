@@ -1,5 +1,4 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse,} from "axios";
-import {showFailToast} from "vant";
 import 'vant/es/toast/style';
 import {errorHandler} from "./request";
 
@@ -39,6 +38,8 @@ interface InterceptorHooks {
 interface HttpRequestConfig extends AxiosRequestConfig {
     showLoading?: boolean;
     checkResultCode?: boolean;//是否检验响应结果码
+    checkLoginState?: boolean //校验用户登陆状态
+    needJumpToLogin?: boolean //是否需要跳转到登陆页面
     interceptorHooks?: InterceptorHooks;
 }
 
@@ -82,9 +83,11 @@ class HttpRequest {
                     resolve(res);
                 })
                 .catch((err) => {
-                    // showFailToast("网络请求异常")
+                    console.log("request方法>" + err)
                     errorHandler(err)
-                    reject(err);
+                    if (err) {
+                        reject(err);
+                    }
                 });
         });
     }

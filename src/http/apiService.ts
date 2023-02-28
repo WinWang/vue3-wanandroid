@@ -100,6 +100,26 @@ function getProjectList(id: number, index: number) {
     return httpRequest.get<ProjectListModel>({url: "/project/list/" + index + "/json?cid=" + id})
 }
 
+/**
+ * 获取收藏列表
+ * @param pageIndex
+ */
+function getCollectList(pageIndex: number) {
+    return httpRequest.get<HomeArticleModel>({url: "/lg/collect/list/" + pageIndex + "/json"})
+}
+
+/**
+ * 收藏站内文章
+ * @param id
+ */
+function addFavorite(id: number) {
+    return httpRequest.post({
+        url: '/lg/collect/' + id + '/json',
+        checkLoginState: true,
+        needJumpToLogin: true
+    })
+}
+
 
 export default {
     getBanner,
@@ -111,5 +131,7 @@ export default {
     login,
     getProjectType,
     getProjectList,
+    getCollectList,
+    addFavorite,
 }
 

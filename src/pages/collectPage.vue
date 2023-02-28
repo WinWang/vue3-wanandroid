@@ -1,11 +1,15 @@
 <template>
     <div class="vertical-layout">
-        <van-tabs color="#ff6900" line-height="2px" title-active-color="#ff6900" title-inactive-color="#333" sticky
-                  swipeable v-model:active="tabActive" @click-tab="changeTab" :ellipsis=isEllipsis
-                  :offset-top=toolHeight>
-            <van-tab v-for="(tab,index) in state.wechatTab" :title="tab.name" :key="index">
-            </van-tab>
-
+        <van-nav-bar title="我的收藏" fixed placeholder active-color="#ee0a24"
+                     @click-left="$router.back()">
+            <template #left>
+                <van-icon name="arrow-left" color="white" size="18"/>
+            </template>
+            <template #right>
+                <van-icon name="search" color="white" size="18"/>
+            </template>
+        </van-nav-bar>
+        <van-pull-refresh v-model="loading" @refresh="onRefresh">
             <van-list
                 v-model:loading="loading"
                 :finished="finished"
@@ -13,7 +17,7 @@
                 @load="onLoad"
             >
                 <div style="width: 100vw">
-                    <template v-for="(item,index) in state.chatList">
+                    <template v-for="(item,index) in state.collectList">
                         <div>
                             <div style="height: 20px" v-if="index===0"></div>
                             <van-row type="flex" justify="space-between" @click="itemClick(item)">
@@ -23,108 +27,79 @@
                             <div class="list-title" @click="itemClick(item)">{{ item.title }}</div>
                             <van-row type="flex" justify="space-between" @click="itemClick(item)">
                                 <div class="list-type">{{ item.superChapterName }}/{{ item.chapterName }}</div>
-                                <img class="list-icon" :src="item.collect?likeSel:likeNor"
-                                     @click.stop="addFavoriteArticle(item.id,index)"/>
                             </van-row>
                             <van-divider></van-divider>
                         </div>
                     </template>
                 </div>
             </van-list>
-        </van-tabs>
+        </van-pull-refresh>
     </div>
 </template>
 
 <!--/*******************************Script-Start**********************************************/-->
 <script setup lang="ts">
-    import {inject, onMounted, reactive, ref} from "vue"
+    import {onMounted, reactive, ref} from "vue"
     import {useRoute, useRouter} from 'vue-router'
     import apiService from "../http/apiService"
-    import {defineOptions} from "unplugin-vue-define-options/macros";
-    import {WechatTabModel} from "../model/WechatTabModel";
     import {HomeArticleModelDatas} from "../model/HomeArticleModel";
-    import likeNorUrl from "../assets/img/icon-like-nor.png";
-    import likeSelUrl from "../assets/img/icon-like-sel.png";
 
-    defineOptions({
-        name: "wechatPage"
-    })
     const route = useRoute()
     const router = useRouter()
-    const state = reactive({
-        wechatTab: <Array<WechatTabModel>>[],
-        chatList: <Array<HomeArticleModelDatas>>[]
-    })
-    const tabActive = ref(0)
+    const state = reactive({collectList: <Array<HomeArticleModelDatas>>[]})
     const loading = ref<boolean>(false)
     const refreshing = ref<boolean>(false)
     const finished = ref<boolean>(false)
-    const isEllipsis = ref<boolean>(false)
-    const toolHeight = inject("toolBarHeight")
-
-    const likeNor = likeNorUrl
-    const likeSel = likeSelUrl
-    let pageIndex = 0 //公众号请求页码
-    let courseId = -1; //公众号ID
+    let pageIndex: number
 
     onMounted(() => {
-        getWeChatTab()
+
     })
 
-    const getWeChatTab = async () => {
-        const result = await apiService.getWeChatTab()
-        state.wechatTab = state.wechatTab.concat(result.data)
-        courseId = state.wechatTab[0].id
-        await getWechatHistory()
-    }
-
-    const getWechatHistory = async () => {
-        const result = await apiService.getChatHistory(courseId, pageIndex)
-        refreshing.value = false
+    /**
+     * 获取收藏列表数据
+     */
+    const getCollectList = async () => {
+        const result = await apiService.getCollectList(pageIndex)
         if (pageIndex == 0) {
-            state.chatList = result.data.datas
+            state.collectList = result.data.datas
         } else {
-            state.chatList = state.chatList.concat(result.data.datas)
+            state.collectList = state.collectList.concat(result.data.datas)
         }
-        finished.value = (state.chatList.length === result.data.total)
+        finished.value = state.collectList.length == result.data.total
         loading.value = false
     }
 
-    const changeTab = (index: any) => {
-        courseId = state.wechatTab[index.name].id
+    const onRefresh = () => {
         pageIndex = 0
-        finished.value = false
-        loading.value = false
-        getWechatHistory()
+        getCollectList()
     }
 
     /**
      * 加载更多
      */
     const onLoad = async () => {
-        if (courseId > 0) {
+        if (pageIndex >= 0) {
             pageIndex++;
-            await getWechatHistory()
+        } else {
+            pageIndex = 0
         }
+        await getCollectList()
     }
 
+    /**
+     * 条目点击
+     * @param item
+     */
     const itemClick = (item: HomeArticleModelDatas) => {
         window.open(item.link)
     }
 
-    /**
-     * 添加收藏文章
-     */
-    const addFavoriteArticle = async (articleID: number, listIndex: number) => {
-        await apiService.addFavorite(articleID)
-        state.chatList[listIndex].collect = true
-    }
 
 </script>
 <!--/********************************Script-End*********************************************/-->
 
 <style scoped lang="less">
-
     .list-name {
         font-size: 14px;
         color: #777;
@@ -155,5 +130,4 @@
         width: 20px;
         margin-right: 15px;
     }
-
 </style>

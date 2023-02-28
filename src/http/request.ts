@@ -1,11 +1,20 @@
 import HttpRequest from "./http"
 import {showFailToast} from "vant";
 import 'vant/es/toast/style';
-
+import {useUserStore} from "../store/userStore";
+import router from "../route";
+import {AxiosError} from "axios";
 /**
  *  为什么我们要对axios进行封装？
  * 1.外部依赖库，有停止维护的风险，将项目中使用的方法逻辑封装到一个文件/文件夹中同意导出，方便更换库，有利于维护
  * 2.封装起来符合高内聚低耦合的思想
+ */
+
+/**
+ * 这里值得特别注意的一点：如何做到支持传入请求/响应拦截器
+ * 思路：要想在创建实例的时候能传入（请求/响应）拦截器，需要修改传入配置对象options: AxiosRequestConfig的类型，读源码可知AxiosRequestConfig类型定义中并不包括拦截器选项，因此如果要传入拦截器配置，需要扩展AxiosRequestConfig类型，这里我定义了一个 HRequestConfig接口来继承AxiosRequestConfig接口，实现对AxiosRequestConfig的扩展。
+ *  当然要传入拦截器配置，首先要定义拦截器的类型，我们可以定义一个InterceptorHooks接口，包含了4个拦截器方法，都为可选项（不是每次请求都要传入拦截器，如果不设置为可选，则必须要传）
+ * ，原有的需要在 HRequest类中声明一个承载interceptor的属性
  */
 
 /**
@@ -14,13 +23,7 @@ import 'vant/es/toast/style';
  * 比如baseURL不同，且在这个baseURL下请求多次，这个时候创建一个公用的请求实例能够提升代码的可维护性
  */
 
-
-/**
- * 这里值得特别注意的一点：如何做到支持传入请求/响应拦截器
- * 思路：要想在创建实例的时候能传入（请求/响应）拦截器，需要修改传入配置对象options: AxiosRequestConfig的类型，读源码可知AxiosRequestConfig类型定义中并不包括拦截器选项，因此如果要传入拦截器配置，需要扩展AxiosRequestConfig类型，这里我定义了一个 HRequestConfig接口来继承AxiosRequestConfig接口，实现对AxiosRequestConfig的扩展。
- *  当然要传入拦截器配置，首先要定义拦截器的类型，我们可以定义一个InterceptorHooks接口，包含了4个拦截器方法，都为可选项（不是每次请求都要传入拦截器，如果不设置为可选，则必须要传）
- * ，原有的需要在 HRequest类中声明一个承载interceptor的属性
- */
+const userStore = useUserStore()
 const httpRequest = new HttpRequest({
     baseURL: "/api",
     timeout: 10 * 1000,
@@ -34,9 +37,20 @@ const httpRequest = new HttpRequest({
             //     config!.headers!.Authorization = `Bearer ${token}`;
             //     config!.headers!.post['Content-Type'] = 'application/json;charset=UTF-8'
             // }
+            if (config.checkLoginState) {
+                if (userStore.getLoginState) {
+                    return config
+                } else if (config.needJumpToLogin) {
+                    router.push({
+                        path: "/loginPage"
+                    })
+                    throw new AxiosError("请登录")
+                }
+            }
             return config;
         },
         requestInterceptorCatch: (err) => {
+            console.log("RequestError", err.toString())
             return err;
         },
         responseInterceptor: (response) => {
@@ -54,14 +68,17 @@ const httpRequest = new HttpRequest({
             }
         },
         responseInterceptorCatch: (error) => {
-            console.log("RequestError", error.toString())
-            return errorHandler(error);
+            console.log("ResponseError", error.toString())
+            errorHandler(error);
+            return Promise.reject(error.response);
         },
     },
 });
 
 export function errorHandler(error: any) {
-    if (error.response.status) {
+    if (error instanceof AxiosError) {
+        showFailToast(error.message)
+    } else if (error != undefined && error.response != undefined && error.response.status) {
         switch (error.response.status) {
             // 401: 未登录
             // 未登录则跳转登录页面，并携带当前页面的路径
@@ -88,7 +105,7 @@ export function errorHandler(error: any) {
             default:
                 showFailToast(error.response.data.message)
         }
-        return Promise.reject(error.response);
+
     }
 }
 

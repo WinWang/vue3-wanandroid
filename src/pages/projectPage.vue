@@ -27,7 +27,8 @@
                                         </div>
                                         <div class="list-data">{{ item.niceDate }}</div>
                                     </van-row>
-                                    <img class="list-icon" :src="item.collect?likeSel:likeNor"/>
+                                    <img class="list-icon" :src="item.collect?likeSel:likeNor"
+                                         @click.stop="addFavoriteArticle(item.id,index)"/>
                                 </div>
                             </div>
                             <van-divider></van-divider>
@@ -128,6 +129,14 @@
 
     const itemClick = (item: ProjectListModelDatas) => {
         window.open(item.link)
+    }
+
+    /**
+     * 添加收藏文章
+     */
+    const addFavoriteArticle = async (articleID: number, listIndex: number) => {
+        await apiService.addFavorite(articleID)
+        state.PList[listIndex].collect = true
     }
 
 

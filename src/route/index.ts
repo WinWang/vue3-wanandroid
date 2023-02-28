@@ -1,6 +1,11 @@
 import {createRouter, createWebHistory} from "vue-router"
 
-// 路由表
+/**
+ * 路由表
+ * [auth]校验用户是否登陆
+ * [keepAlive]页面是否需要保活
+ *
+ */
 let routes = [
     {
         name: 'mainPage',
@@ -67,6 +72,16 @@ let routes = [
         path: "/registerPage",
         component: () => import('../pages/registerPage.vue'),
         meta: {
+            keepAlive: false
+        }
+    },
+    // 收藏页面
+    {
+        name: "collectPage",
+        path: "/collectPage",
+        component: () => import('../pages/collectPage.vue'),
+        meta: {
+            auth: true,
             keepAlive: false
         }
     }

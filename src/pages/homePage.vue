@@ -23,7 +23,7 @@
                             <van-row type="flex" justify="space-between">
                                 <div class="list-type">{{ item.superChapterName }}/{{ item.chapterName }}</div>
                                 <img class="list-icon" :src="item.collect?likeSel:likeNor"
-                                     @click.stop="addMyFavi(item,index)"/>
+                                     @click.stop="addFavoriteArticle(item.id,index)"/>
                             </van-row>
                             <van-divider></van-divider>
                         </div>
@@ -43,6 +43,7 @@
     import likeSelUrl from '../assets/img/icon-like-sel.png';
     import 'vant/es/toast/style';
     import {HomeArticleModelDatas} from "../model/HomeArticleModel";
+    import {BannerModelChild} from "../model/BannerModel";
 
     defineOptions({
         name: 'homePage'
@@ -51,8 +52,8 @@
     const router = useRouter()
     /************变量声明******************/
     const state = reactive({
-        bannerList: [],
-        homeList: []
+        bannerList: <Array<BannerModelChild>>[],
+        homeList: <Array<HomeArticleModelDatas>>[]
     })
     const loading = ref<boolean>(false)
     const finished = ref<boolean>(false)
@@ -93,6 +94,15 @@
         finished.value = state.homeList.length == homeList.data.total
         loading.value = false
     }
+
+    /**
+     * 添加收藏文章
+     */
+    const addFavoriteArticle = async (articleID: number, listIndex: number) => {
+        await apiService.addFavorite(articleID)
+        state.homeList[listIndex].collect = true
+    }
+
 
     /**
      * 刷新方法

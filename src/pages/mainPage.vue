@@ -39,7 +39,8 @@
                 </div>
 
                 <van-cell-group>
-                    <van-cell value="我的收藏" icon="like-o" is-link @click="toCollect()"/>
+                    <van-cell value="我的收藏" icon="like-o" is-link
+                              @click="$router.push({path:'/collectPage'});closeDrawer()"/>
                     <van-cell value="TODO" icon="add-o" is-link/>
                     <van-cell value="退出登录" icon="share"/>
                 </van-cell-group>
@@ -112,17 +113,20 @@
         showPop.value = true
     }
 
+    const closeDrawer = () => {
+        showPop.value = false
+    }
+
     const doLogin = () => {
         if (!userStore.getLoginState) {
             router.push({
                 path: "/loginPage"
             })
-            showPop.value = false
+            closeDrawer()
         } else {
             showToast("您已经登录了")
         }
     }
-
 
 </script>
 <!--/********************************Script-End*********************************************/-->
