@@ -1,18 +1,36 @@
-# Vue 3 + TypeScript + Vite
+# Vue 3 + TypeScript + Pinia + Vant + Vite
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+这是一个基于vue3+ts+pinia+axios+vant+vite整合的移动端上手项目，具体包含功能如下：<br>
+1、vue3整合vue-router4的使用已经路由监听在项目中的运用（例如：跳转目标页面是否需要登陆的判断等）<br>
+2、vue3中keepAlive在项目中的运用以及router嵌套keepAlive的处理方式<br>
+3、vue3中项目针对移动端屏幕适配<br>
+4、axios中整合TypeScript针对请求的范型封装（例如：单个接口是否需要登陆判断，通过请求结果码判断是否需要异常响应等；通过HttpConfig配置）<br>
+5、pinia和plugin-pinia-persist插件在项目中的运用（类似vuex的使用，记录用户登陆状态以及用户信息等）<br><br>
 
-## Recommended IDE Setup
+<div style="display: flex; flex-direction: row">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/1.png" width="33%">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/2.png" width="33%">
+</div>
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+<br/>
 
-## Type Support For `.vue` Imports in TS
+<div style="display: flex; flex-direction: row">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/3.png" width="33%">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/4.png" width="33%">
+</div>
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+<br/>
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+<div style="display: flex; flex-direction: row">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/5.png" width="33%">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/6.png" width="33%">
+</div>
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+<br/>
+
+<div style="display: flex; flex-direction: row">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/7.png" width="33%">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/8.png" width="33%">
+</div>
+
+
