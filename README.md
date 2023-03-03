@@ -1,4 +1,4 @@
-# Vue 3 + TypeScript + Pinia + Vant + Vite
+# Vue 3 + TypeScript + Pinia + Vant + Vite (WanAndroid项目)
 
 <font size=5>这是一个基于vue3+ts+pinia+axios+vant+vite整合的移动端上手项目，具体包含功能如下：</font><br>
 1、vue3整合vue-router4的使用已经路由监听在项目中的运用（例如：跳转目标页面是否需要登陆的判断等）<br>
