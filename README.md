@@ -10,13 +10,11 @@
 
 ## 其他一些学习练手的项目
 
-Flutter版本开眼App链接(getx+retrofit+dio+jsonserialize+自定义控件demo)：https://github.com/WinWang/open_eye <br>
+**Flutter版本**开眼App链接(getx+retrofit+dio+jsonserialize+自定义控件demo)：https://github.com/WinWang/open_eye <br>
 
-React版本的开眼App链接(React18+React-Vant+Mobx+axios)：https://github.com/WinWang/react-oepn-eye <br>
+**React版本**的开眼App链接(React18+React-Vant+Mobx+axios)：https://github.com/WinWang/react-oepn-eye <br>
 
-如果想上手Vue的同学也可以参照看看以前基于Vue2+vue-Vant+axios的WanAndroid项目<br/>
-
-Vue2版本WanAndroid项目链接：https://github.com/WinWang/Vue-WanAndroid <br>
+**Vue2版本**WanAndroid项目链接(Vue2+vuex+vant+axios)：https://github.com/WinWang/Vue-WanAndroid <br>
 
 
 <div style="display: flex; flex-direction: row">
