@@ -1,4 +1,4 @@
-# Vue 3 + TypeScript + Pinia + Vant + Vite
+# Vue 3 + TypeScript + Pinia + Vant + Vite (WanAndroid项目)
 
 <font size=5>这是一个基于vue3+ts+pinia+axios+vant+vite整合的移动端上手项目，具体包含功能如下：</font><br>
 1、vue3整合vue-router4的使用已经路由监听在项目中的运用（例如：跳转目标页面是否需要登陆的判断等）<br>
@@ -10,13 +10,11 @@
 
 ## 其他一些学习练手的项目
 
-Flutter版本开眼App链接(getx+retrofit+dio+jsonserialize+自定义控件demo)：https://github.com/WinWang/open_eye <br>
+**Flutter版本**开眼App链接(getx+retrofit+dio+jsonserialize+自定义控件demo)：https://github.com/WinWang/open_eye <br>
 
-React版本的开眼App链接(React18+React-Vant+Mobx+axios)：https://github.com/WinWang/react-oepn-eye <br>
+**React版本**的开眼App链接(React18+React-Vant+Mobx+axios)：https://github.com/WinWang/react-oepn-eye <br>
 
-如果想上手Vue的同学也可以参照看看以前基于Vue2+vue-Vant+axios的WanAndroid项目<br/>
-
-Vue2版本WanAndroid项目链接：https://github.com/WinWang/Vue-WanAndroid <br>
+**Vue2版本**WanAndroid项目链接(Vue2+vuex+vant+axios)：https://github.com/WinWang/Vue-WanAndroid <br>
 
 
 <div style="display: flex; flex-direction: row">
