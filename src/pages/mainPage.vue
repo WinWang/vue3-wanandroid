@@ -20,11 +20,11 @@
             </router-view>
         </div>
         <van-tabbar route v-model="activeIndex" @change="onTabChange" placeholder fixed active-color="#ff6900">
-            <van-tabbar-item to="/homePage" icon="home-o">首页</van-tabbar-item>
-            <van-tabbar-item to="/systemPage" icon="search">体系</van-tabbar-item>
-            <van-tabbar-item to="/wechatPage" icon="friends-o">公众号</van-tabbar-item>
-            <van-tabbar-item to="/projectPage" icon="friends-o">项目</van-tabbar-item>
-            <van-tabbar-item to="/siteMapPage" icon="setting-o">导航</van-tabbar-item>
+            <van-tabbar-item replace to="/homePage" icon="home-o">首页</van-tabbar-item>
+            <van-tabbar-item replace to="/systemPage" icon="search">体系</van-tabbar-item>
+            <van-tabbar-item replace to="/wechatPage" icon="friends-o">公众号</van-tabbar-item>
+            <van-tabbar-item replace to="/projectPage" icon="friends-o">项目</van-tabbar-item>
+            <van-tabbar-item replace to="/siteMapPage" icon="setting-o">导航</van-tabbar-item>
         </van-tabbar>
         <van-popup
             get-container="#app"

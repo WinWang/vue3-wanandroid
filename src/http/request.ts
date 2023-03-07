@@ -70,7 +70,7 @@ const httpRequest = new HttpRequest({
         responseInterceptorCatch: (error) => {
             console.log("ResponseError", error.toString())
             errorHandler(error);
-            return Promise.reject(error.response);
+            return Promise.reject(error);
         },
     },
 });

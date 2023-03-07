@@ -1,44 +1,52 @@
 <template>
-    <div class="vertical-layout">
-        <van-tabs color="#ff6900" v-model:active="tabActive" line-height="2px" title-active-color="#ff6900"
-                  title-inactive-color="#333" sticky
-                  swipeable @change="changeTab" :offset-top="toolHeight">
-            <van-tab v-for="(tab,index) in state.projectTList" :title="tab.name" :key="index">
-            </van-tab>
-            <van-list
-                v-model="loading"
-                :finished="finished"
-                finished-text="没有更多了"
-                @load="onLoad"
-            >
+    <ViewStateComp :view-state="viewStateTab" @retry="getTreeList">
+        <div class="vertical-layout">
+            <van-tabs color="#ff6900" v-model:active="tabActive" line-height="2px" title-active-color="#ff6900"
+                      title-inactive-color="#333" sticky
+                      swipeable @change="changeTab" :offset-top="toolHeight">
+                <van-tab v-for="(tab,index) in state.projectTList" :title="tab.name" :key="index">
+                </van-tab>
                 <div style="width: 100vw">
-                    <template v-for="(item,index) in state.PList">
-                        <div>
-                            <div style="height: 20px" v-if="index==0"></div>
-                            <div style="display: flex;flex-direction: row; justify-content: center"
-                                 @click="itemClick(item)">
-                                <van-image :src="item.envelopePic" height="120" width="60" lazy-load
-                                           @click="previewImg(item.envelopePic)"/>
-                                <div style="display: flex;flex-direction: column;width: 280px;margin-left: 10px">
-                                    <div class="p-title">{{ item.title }}</div>
-                                    <div class="p-desc">{{ item.desc }}</div>
-                                    <van-row type="flex" justify="space-between" style="margin-top: 10px">
-                                        <div class="list-type">{{ item.shareUser == "" ? item.author : item.shareUser }}
+                    <ViewStateComp :view-state="viewState" @retry="getPList">
+                        <van-list
+                            v-model="loading"
+                            :finished="finished"
+                            finished-text="没有更多了"
+                            @load="onLoad"
+                        >
+                            <div style="width: 100vw">
+                                <template v-for="(item,index) in state.PList">
+                                    <div>
+                                        <div style="height: 20px" v-if="index===0"></div>
+                                        <div style="display: flex;flex-direction: row; justify-content: center"
+                                             @click="itemClick(item)">
+                                            <van-image :src="item.envelopePic" height="120" width="60" lazy-load
+                                                       @click="previewImg(item.envelopePic)"/>
+                                            <div
+                                                style="display: flex;flex-direction: column;width: 280px;margin-left: 10px">
+                                                <div class="p-title">{{ item.title }}</div>
+                                                <div class="p-desc">{{ item.desc }}</div>
+                                                <van-row type="flex" justify="space-between" style="margin-top: 10px">
+                                                    <div class="list-type">
+                                                        {{ item.shareUser == "" ? item.author : item.shareUser }}
+                                                    </div>
+                                                    <div class="list-data">{{ item.niceDate }}</div>
+                                                </van-row>
+                                                <img class="list-icon" :src="item.collect?likeSel:likeNor"
+                                                     @click.stop="addFavoriteArticle(item.id,index)"/>
+                                            </div>
                                         </div>
-                                        <div class="list-data">{{ item.niceDate }}</div>
-                                    </van-row>
-                                    <img class="list-icon" :src="item.collect?likeSel:likeNor"
-                                         @click.stop="addFavoriteArticle(item.id,index)"/>
-                                </div>
+                                        <van-divider></van-divider>
+                                    </div>
+                                </template>
                             </div>
-                            <van-divider></van-divider>
-                        </div>
-                    </template>
+                        </van-list>
+                    </ViewStateComp>
                 </div>
-            </van-list>
-        </van-tabs>
+            </van-tabs>
 
-    </div>
+        </div>
+    </ViewStateComp>
 </template>
 
 <script setup lang="ts">
@@ -50,10 +58,14 @@
     import likeSelUrl from '../assets/img/icon-like-sel.png';
     import {ProjectListModelDatas} from "../model/ProjectListModel";
     import {ProjectTypeModel} from "../model/ProjectTypeModel";
+    import ViewStateComp from "../components/ViewStateComp.vue";
+    import {useRequestStatus} from "../hooks/useRequestStatus";
 
     defineOptions({
         name: "projectPage"
     })
+    const [viewStateTab, requestApiTab] = useRequestStatus()
+    const [viewState, requestApi] = useRequestStatus()
     const route = useRoute()
     const router = useRouter()
     const state = reactive({
@@ -78,7 +90,7 @@
      * 获取Tree列表
      */
     const getTreeList = async () => {
-        const treeData = await apiService.getProjectType()
+        const treeData = await requestApiTab(apiService.getProjectType())
         state.projectTList = treeData.data;
         pid = treeData.data[0].id;
         await getPList()
@@ -88,25 +100,23 @@
      * 获取项目列表
      */
     const getPList = async () => {
-        await apiService.getProjectList(pid, pageIndex)
-            .then(res => {
-                if (res.data.datas.length > 0) {
-                    if (pageIndex === 0) {
-                        state.PList = res.data.datas
-                    } else {
-                        state.PList = state.PList.concat(res.data.datas);
-                    }
-                    if (res.data.datas.length % 10 == 0) {
-                        finished.value = true;
-                    } else {
-                        finished.value = false
-                    }
-                    loading.value = false;
-                } else {
-                    loading.value = false;
-                    finished.value = true
-                }
-            })
+        const res = await requestApi(apiService.getProjectList(pid, pageIndex), pageIndex < 1)
+        if (res.data.datas.length > 0) {
+            if (pageIndex === 0) {
+                state.PList = res.data.datas
+            } else {
+                state.PList = state.PList.concat(res.data.datas);
+            }
+            if (res.data.datas.length % 10 == 0) {
+                finished.value = true;
+            } else {
+                finished.value = false
+            }
+            loading.value = false;
+        } else {
+            loading.value = false;
+            finished.value = true
+        }
     }
 
     const changeTab = (index: any) => {

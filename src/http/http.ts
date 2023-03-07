@@ -83,7 +83,7 @@ class HttpRequest {
                     resolve(res);
                 })
                 .catch((err) => {
-                    console.log("request方法>" + err)
+                    console.log("request方法>>>>>>>" + err)
                     errorHandler(err)
                     if (err) {
                         reject(err);

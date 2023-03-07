@@ -28,5 +28,6 @@ declare module '@vue/runtime-core' {
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
+    ViewStateComp: typeof import('./src/components/ViewStateComp.vue')['default']
   }
 }

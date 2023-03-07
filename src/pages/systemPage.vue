@@ -1,39 +1,44 @@
 <template>
-    <div class="vertiacl-layout">
-        <template v-for="(item,index) in state.dataList">
-            <div>
-                <div style="height: 15px" v-if="index==0"></div>
-                <van-row type="flex" justify="space-between" align="center">
-                    <van-col span="22">
-                        <div class="tree-title">{{ item.name }}</div>
-                        <div class="tree-child-wrap">
-                            <template v-for="(child,index) in item.children">
-                                <div class="txt-child">{{ child.name }}</div>
-                            </template>
-                        </div>
+    <ViewStateComp :view-state="viewState" @retry="getDataList">
+        <div class="vertiacl-layout">
+            <template v-for="(item,index) in state.dataList">
+                <div>
+                    <div style="height: 15px" v-if="index===0"></div>
+                    <van-row type="flex" justify="space-between" align="center">
+                        <van-col span="22">
+                            <div class="tree-title">{{ item.name }}</div>
+                            <div class="tree-child-wrap">
+                                <template v-for="(child,index) in item.children">
+                                    <div class="txt-child">{{ child.name }}</div>
+                                </template>
+                            </div>
 
-                    </van-col>
-                    <img class="img-arrow" src="../assets/img/iocn-arrow.png"/>
-                </van-row>
+                        </van-col>
+                        <img class="img-arrow" src="../assets/img/iocn-arrow.png"/>
+                    </van-row>
 
-                <van-divider></van-divider>
-            </div>
-        </template>
-    </div>
+                    <van-divider></van-divider>
+                </div>
+            </template>
+        </div>
+    </ViewStateComp>
 </template>
 
 <!--/*******************************Script-Start**********************************************/-->
 <script setup lang="ts">
-    import {onActivated, onMounted, reactive} from "vue"
+    import {onMounted, reactive} from "vue"
     import {useRoute, useRouter} from 'vue-router'
     import apiService from "../http/apiService"
+    import ViewStateComp from "../components/ViewStateComp.vue";
+    import {useRequestStatus} from "../hooks/useRequestStatus";
 
     const route = useRoute()
     const router = useRouter()
+    const [viewState, requestApi] = useRequestStatus()
+
     const state = reactive({
         dataList: []
     })
-
     defineOptions({
         name: 'systemPage'
     })
@@ -43,7 +48,7 @@
     })
 
     const getDataList = async () => {
-        const result = await apiService.getSystem()
+        const result = await requestApi(apiService.getSystem())
         state.dataList = state.dataList.concat(result.data)
     }
 

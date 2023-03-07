@@ -1,38 +1,49 @@
 <template>
-    <div class="vertical-layout">
-        <van-tabs color="#ff6900" line-height="2px" title-active-color="#ff6900" title-inactive-color="#333" sticky
-                  swipeable v-model:active="tabActive" @click-tab="changeTab" :ellipsis=isEllipsis
-                  :offset-top=toolHeight>
-            <van-tab v-for="(tab,index) in state.wechatTab" :title="tab.name" :key="index">
-            </van-tab>
-
-            <van-list
-                v-model:loading="loading"
-                :finished="finished"
-                finished-text="没有更多了"
-                @load="onLoad"
-            >
+    <ViewStateComp :view-state="viewStateTab" @retry="getWeChatTab">
+        <div class="vertical-layout">
+            <van-tabs color="#ff6900" line-height="2px" title-active-color="#ff6900" title-inactive-color="#333" sticky
+                      swipeable v-model:active="tabActive" @click-tab="changeTab" :ellipsis=isEllipsis
+                      :offset-top=toolHeight>
+                <van-tab v-for="(tab,index) in state.wechatTab" :title="tab.name" :key="index">
+                </van-tab>
                 <div style="width: 100vw">
-                    <template v-for="(item,index) in state.chatList">
-                        <div>
-                            <div style="height: 20px" v-if="index===0"></div>
-                            <van-row type="flex" justify="space-between" @click="itemClick(item)">
-                                <div class="list-name">{{ item.shareUser === "" ? item.author : item.shareUser }}</div>
-                                <div class="list-data">{{ item.niceShareDate }}</div>
-                            </van-row>
-                            <div class="list-title" @click="itemClick(item)">{{ item.title }}</div>
-                            <van-row type="flex" justify="space-between" @click="itemClick(item)">
-                                <div class="list-type">{{ item.superChapterName }}/{{ item.chapterName }}</div>
-                                <img class="list-icon" :src="item.collect?likeSel:likeNor"
-                                     @click.stop="addFavoriteArticle(item.id,index)"/>
-                            </van-row>
-                            <van-divider></van-divider>
-                        </div>
-                    </template>
+                    <ViewStateComp :view-state="viewState" @retry="getWechatHistory">
+                        <van-list
+                            v-model:loading="loading"
+                            :finished="finished"
+                            finished-text="没有更多了"
+                            @load="onLoad"
+                        >
+                            <div style="width: 100vw">
+                                <template v-for="(item,index) in state.chatList">
+                                    <div>
+                                        <div style="height: 20px" v-if="index===0"></div>
+                                        <van-row type="flex" justify="space-between" @click="itemClick(item)">
+                                            <div class="list-name">{{
+                                                    item.shareUser === "" ? item.author : item.shareUser
+                                                }}
+                                            </div>
+                                            <div class="list-data">{{ item.niceShareDate }}</div>
+                                        </van-row>
+                                        <div class="list-title" @click="itemClick(item)">{{ item.title }}</div>
+                                        <van-row type="flex" justify="space-between" @click="itemClick(item)">
+                                            <div class="list-type">{{ item.superChapterName }}/{{
+                                                    item.chapterName
+                                                }}
+                                            </div>
+                                            <img class="list-icon" :src="item.collect?likeSel:likeNor"
+                                                 @click.stop="addFavoriteArticle(item.id,index)"/>
+                                        </van-row>
+                                        <van-divider></van-divider>
+                                    </div>
+                                </template>
+                            </div>
+                        </van-list>
+                    </ViewStateComp>
                 </div>
-            </van-list>
-        </van-tabs>
-    </div>
+            </van-tabs>
+        </div>
+    </ViewStateComp>
 </template>
 
 <!--/*******************************Script-Start**********************************************/-->
@@ -45,10 +56,14 @@
     import {HomeArticleModelDatas} from "../model/HomeArticleModel";
     import likeNorUrl from "../assets/img/icon-like-nor.png";
     import likeSelUrl from "../assets/img/icon-like-sel.png";
+    import ViewStateComp from "../components/ViewStateComp.vue";
+    import {useRequestStatus} from "../hooks/useRequestStatus";
 
     defineOptions({
         name: "wechatPage"
     })
+    const [viewStateTab, requestApiTab] = useRequestStatus()
+    const [viewState, requestApi] = useRequestStatus()
     const route = useRoute()
     const router = useRouter()
     const state = reactive({
@@ -72,14 +87,14 @@
     })
 
     const getWeChatTab = async () => {
-        const result = await apiService.getWeChatTab()
+        const result = await requestApiTab(apiService.getWeChatTab())
         state.wechatTab = state.wechatTab.concat(result.data)
         courseId = state.wechatTab[0].id
         await getWechatHistory()
     }
 
     const getWechatHistory = async () => {
-        const result = await apiService.getChatHistory(courseId, pageIndex)
+        const result = await requestApi(apiService.getChatHistory(courseId, pageIndex), pageIndex < 1)
         refreshing.value = false
         if (pageIndex == 0) {
             state.chatList = result.data.datas

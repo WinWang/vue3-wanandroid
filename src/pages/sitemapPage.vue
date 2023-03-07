@@ -1,41 +1,45 @@
 <template>
-    <div class="vertical-layout">
-        <template v-for="(item,index) in state.siteList">
-            <div>
-                <van-sticky :offset-top="toolHeight">
-                    <div class="site-header">{{ item.name }}</div>
-                </van-sticky>
+    <ViewStateComp :view-state="viewState" @retry="getSiteData">
+        <div class="vertical-layout">
+            <template v-for="(item,index) in state.siteList">
+                <div>
+                    <van-sticky :offset-top="toolHeight">
+                        <div class="site-header">{{ item.name }}</div>
+                    </van-sticky>
 
-                <div class="site-wrap">
-                    <template v-for="(itemIn,ind) in item.articles">
-                        <!--<van-tag round :type="setButtonStyle(ind)" size="large" style="margin: 10px 5px">-->
-                        <!--{{itemIn.title}}-->
-                        <!--</van-tag>-->
-                        <div @click="itemClick(itemIn)"
-                             :class="['tab-style',{'color-1':ind%1==0,'color-2':ind%2==0,'color-3':ind%3==0,'color-4':ind%4==0,'color-5':ind%5==0,'color-6':ind%6==0,'color-7':ind%7==0,'color-8':ind%8==0,'color-9':ind%9==0,'color-9':ind%0==0}]">
-                            {{ itemIn.title }}
-                        </div>
-                    </template>
+                    <div class="site-wrap">
+                        <template v-for="(itemIn,ind) in item.articles">
+                            <!--<van-tag round :type="setButtonStyle(ind)" size="large" style="margin: 10px 5px">-->
+                            <!--{{itemIn.title}}-->
+                            <!--</van-tag>-->
+                            <div @click="itemClick(itemIn)"
+                                 :class="['tab-style',{'color-1':ind%1==0,'color-2':ind%2==0,'color-3':ind%3==0,'color-4':ind%4==0,'color-5':ind%5==0,'color-6':ind%6==0,'color-7':ind%7==0,'color-8':ind%8==0,'color-9':ind%9==0,'color-9':ind%0==0}]">
+                                {{ itemIn.title }}
+                            </div>
+                        </template>
+                    </div>
                 </div>
-            </div>
-        </template>
-    </div>
+            </template>
+        </div>
+    </ViewStateComp>
 </template>
 
 <!--/*******************************Script-Start**********************************************/-->
 <script setup lang="ts">
-    import {onMounted, reactive, getCurrentInstance, inject, ref} from "vue"
+    import {inject, onMounted, reactive} from "vue"
     import {useRoute, useRouter} from 'vue-router'
     import {defineOptions} from "unplugin-vue-define-options/macros";
     import {SiteModel} from "../model/SiteModel";
     import apiService from "../http/apiService";
+    import ViewStateComp from "../components/ViewStateComp.vue";
+    import {useRequestStatus} from "../hooks/useRequestStatus";
 
     defineOptions({
         name: "siteMapPage"
     })
+    const [viewState, requestApi] = useRequestStatus()
     const route = useRoute()
     const router = useRouter()
-    const currentInstance = getCurrentInstance()
     const state = reactive({
         siteList: <Array<SiteModel>>[]
     })
@@ -46,7 +50,7 @@
     })
 
     const getSiteData = async () => {
-        const result = await apiService.getSite()
+        const result = await requestApi(apiService.getSite())
         state.siteList = result.data
 
     }
