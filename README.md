@@ -7,6 +7,7 @@
 4、axios中整合TypeScript针对请求的范型封装（例如：单个接口是否需要登陆判断，通过请求结果码判断是否需要异常响应等；通过HttpConfig配置）<br>
 5、pinia和plugin-pinia-persist插件在项目中的运用（类似vuex的使用，记录用户登陆状态以及用户信息等）<br>
 6、ref配合provide以及inject结合使用场景<br>
+7、结合hooks和Component封装页面网络请求状态展示（加载中、加载成功、加载失败页面、空页面、网络错误页面）
 
 ## 其他一些学习练手的项目
 
