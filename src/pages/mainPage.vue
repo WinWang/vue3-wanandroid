@@ -11,7 +11,7 @@
                 </template>
             </van-nav-bar>
         </div>
-        <div class="main-content">
+        <div class="main-content" id="main_content">
             <router-view v-slot="{ Component }">
                 <keep-alive>
                     <component :is="Component" :key="$route.name" v-if="$route.meta.keepAlive"/>
@@ -42,6 +42,7 @@
                     <van-cell value="我的收藏" icon="like-o" is-link
                               @click="$router.push({path:'/collectPage'});closeDrawer()"/>
                     <van-cell value="TODO" icon="add-o" is-link/>
+                    <van-cell value="测试" icon="add-o" is-link @click="$router.push({path:'/testPage'})"/>
                     <van-cell value="退出登录" icon="share"/>
                 </van-cell-group>
 
@@ -52,7 +53,7 @@
 
 <!--/*******************************Script-Start**********************************************/-->
 <script setup lang="ts">
-    import {onActivated, onMounted, reactive, ref, provide} from "vue";
+    import {onActivated, onMounted, provide, reactive, ref, watch} from "vue";
     import {useRoute, useRouter} from 'vue-router'
     import {defineOptions} from "unplugin-vue-define-options/macros";
     import {useUserStore} from "../store/userStore";

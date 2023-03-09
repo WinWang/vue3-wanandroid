@@ -20,6 +20,7 @@ let routes = [
                 path: "/homePage",
                 component: () => import("../pages/homePage.vue"),
                 meta: {
+                    scrollState: true,
                     keepAlive: true
                 },
             },
@@ -28,6 +29,7 @@ let routes = [
                 path: "/projectPage",
                 component: () => import("../pages/projectPage.vue"),
                 meta: {
+                    scrollState: true,
                     keepAlive: true
                 },
             },
@@ -36,6 +38,7 @@ let routes = [
                 path: "/siteMapPage",
                 component: () => import("../pages/sitemapPage.vue"),
                 meta: {
+                    scrollState: true,
                     keepAlive: true
                 },
             },
@@ -44,6 +47,7 @@ let routes = [
                 path: "/wechatPage",
                 component: () => import("../pages/wechatPage.vue"),
                 meta: {
+                    scrollState: true,
                     keepAlive: true
                 },
             },
@@ -52,6 +56,7 @@ let routes = [
                 path: "/systemPage",
                 component: () => import("../pages/systemPage.vue"),
                 meta: {
+                    scrollState: true,
                     keepAlive: true
                 },
             },
@@ -84,7 +89,22 @@ let routes = [
             auth: true,
             keepAlive: false
         }
+    },
+
+    // 测试页面
+    {
+        name: "testPage",
+        path: "/testPage",
+        component: () => import('../pages/testPage.vue')
+    },
+
+    //默认未找到页面
+    {
+        name: "*",
+        path: "/:w+",
+        component: () => import('../pages/errorPage.vue')
     }
+
 ]
 
 // 创建路由

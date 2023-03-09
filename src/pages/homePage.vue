@@ -1,46 +1,52 @@
 <template>
     <ViewStateComp :view-state="viewState" @retry="init">
-        <van-pull-refresh v-model="loading" @refresh="onRefresh">
-            <div class="vertical-layout">
-                <van-swipe :autoplay="3000">
-                    <van-swipe-item v-for="(item, index) in state.bannerList" :key="index">
-                        <van-image :src="item?.imagePath" height="220px" width="100%"/>
-                    </van-swipe-item>
-                </van-swipe>
-                <van-list
-                    v-model:loading=loading
-                    :finished="finished"
-                    finished-text="没有更多了"
-                    @load="onLoad"
-                >
-                    <div>
-                        <template v-for="(item,index) in state.homeList">
-                            <div @click="toDetail(item)">
-                                <van-row type="flex" justify="space-between">
-                                    <div class="list-name">{{
-                                            item.shareUser !== "" ? item.shareUser : item.author
-                                        }}
-                                    </div>
-                                    <div class="list-data">{{ item.niceShareDate }}</div>
-                                </van-row>
-                                <div class="list-title">{{ item.title }}</div>
-                                <van-row type="flex" justify="space-between">
-                                    <div class="list-type">{{ item.superChapterName }}/{{ item.chapterName }}</div>
-                                    <img class="list-icon" :src="item.collect?likeSel:likeNor"
-                                         @click.stop="addFavoriteArticle(item.id,index)"/>
-                                </van-row>
-                                <van-divider></van-divider>
-                            </div>
-                        </template>
-                    </div>
-                </van-list>
-            </div>
-        </van-pull-refresh>
+        <div class="vertical-layout" ref="homeDiv">
+            <van-pull-refresh v-model="loading" @refresh="onRefresh">
+                <div class="vertical-layout">
+                    <van-swipe :autoplay="3000">
+                        <van-swipe-item v-for="(item, index) in state.bannerList" :key="index">
+                            <van-image :src="item?.imagePath" height="220px" width="100%"/>
+                        </van-swipe-item>
+                    </van-swipe>
+                    <van-list
+                        v-model:loading=loading
+                        :finished="finished"
+                        finished-text="没有更多了"
+                        @load="onLoad"
+                    >
+                        <div>
+                            <template v-for="(item,index) in state.homeList">
+                                <div @click="toDetail(item)">
+                                    <van-row type="flex" justify="space-between">
+                                        <div class="list-name">
+                                            {{
+                                                item.shareUser !== "" ? item.shareUser : item.author
+                                            }}
+                                        </div>
+                                        <div class="list-data">{{ item.niceShareDate }}</div>
+                                    </van-row>
+                                    <div class="list-title">{{ item.title }}</div>
+                                    <van-row type="flex" justify="space-between">
+                                        <div class="list-type">{{ item.superChapterName }}/{{
+                                                item.chapterName
+                                            }}
+                                        </div>
+                                        <img class="list-icon" :src="item.collect?likeSelUrl:likeNorUrl"
+                                             @click.stop="addFavoriteArticle(item.id,index)"/>
+                                    </van-row>
+                                    <van-divider></van-divider>
+                                </div>
+                            </template>
+                        </div>
+                    </van-list>
+                </div>
+            </van-pull-refresh>
+        </div>
     </ViewStateComp>
 </template>
 
 <script setup lang="ts">
-    import {onActivated, onMounted, reactive, ref} from "vue";
+    import {onActivated, onDeactivated, onMounted, reactive, ref} from "vue";
     import {useRoute, useRouter} from 'vue-router'
     import apiService from "../http/apiService";
     import likeNorUrl from '../assets/img/icon-like-nor.png';
@@ -50,6 +56,8 @@
     import {BannerModelChild} from "../model/BannerModel";
     import ViewStateComp from "../components/ViewStateComp.vue";
     import {useRequestStatus} from "../hooks/useRequestStatus";
+
+    const homeDiv = ref<HTMLElement | null>(null)
 
     defineOptions({
         name: 'homePage'
@@ -66,8 +74,6 @@
     const finished = ref<boolean>(false)
 
     /************变量声明******************/
-    const likeNor = likeNorUrl
-    const likeSel = likeSelUrl
     let pageIndex = -1
     let pageInit = false
 
@@ -76,6 +82,9 @@
     })
 
     onActivated(() => {
+    })
+
+    onDeactivated(() => {
 
     })
 
@@ -84,22 +93,13 @@
         requestApi(Promise.all([
             apiService.getBanner(), apiService.getHomeList(pageIndex)])).then((res) => {
             //banner数据
-            state.bannerList = state.bannerList.concat(res[0].data)
+            state.bannerList = [...res[0].data]
             //首页列表
-            state.homeList = state.homeList.concat(res[1].data.datas)
+            state.homeList = [...res[1].data.datas]
             finished.value = state.homeList.length == res[1].data.total
             loading.value = false
         })
         pageInit = true
-    }
-
-    /**
-     * 获取Banner
-     */
-    const getBanner = async () => {
-        const data = await apiService.getBanner()
-        state.bannerList = state.bannerList.concat(data.data)
-        loading.value = false
     }
 
     /**

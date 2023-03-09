@@ -116,7 +116,8 @@ function addFavorite(id: number) {
     return httpRequest.post({
         url: '/lg/collect/' + id + '/json',
         checkLoginState: true,
-        needJumpToLogin: true
+        needJumpToLogin: true,
+        showLoading: true
     })
 }
 

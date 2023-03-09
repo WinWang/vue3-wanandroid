@@ -1,5 +1,5 @@
 import HttpRequest from "./http"
-import {showFailToast} from "vant";
+import {closeToast, showFailToast, showLoadingToast} from "vant";
 import 'vant/es/toast/style';
 import {useUserStore} from "../store/userStore";
 import router from "../route";
@@ -24,6 +24,7 @@ import {AxiosError} from "axios";
  */
 
 const userStore = useUserStore()
+
 const httpRequest = new HttpRequest({
     baseURL: "/api",
     timeout: 10 * 1000,
@@ -37,6 +38,15 @@ const httpRequest = new HttpRequest({
             //     config!.headers!.Authorization = `Bearer ${token}`;
             //     config!.headers!.post['Content-Type'] = 'application/json;charset=UTF-8'
             // }
+
+            if (config.showLoading) {
+                showLoadingToast({
+                    message: '加载中...',
+                    forbidClick: true,
+                    duration: 10000
+                });
+            }
+
             if (config.checkLoginState) {
                 if (userStore.getLoginState) {
                     return config
@@ -51,10 +61,12 @@ const httpRequest = new HttpRequest({
         },
         requestInterceptorCatch: (err) => {
             console.log("RequestError", err.toString())
+            closeToast()
             return err;
         },
         responseInterceptor: (response) => {
             //优先执行自己的请求响应拦截器，在执行通用请求request的
+            closeToast()
             if (response.status === 200) {
                 // @ts-ignore
                 const checkResultCode = response.config.checkResultCode
@@ -68,6 +80,7 @@ const httpRequest = new HttpRequest({
             }
         },
         responseInterceptorCatch: (error) => {
+            closeToast()
             console.log("ResponseError", error.toString())
             errorHandler(error);
             return Promise.reject(error);

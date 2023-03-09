@@ -22,8 +22,7 @@
 
 <!--/*******************************Script-Start**********************************************/-->
 <script setup lang="ts">
-    import {onMounted, ref, watch} from "vue"
-    import {useRoute, useRouter} from 'vue-router'
+    import {onMounted} from "vue"
     import emptyImage from "../assets/img/common_empty_content.png"
     import timeoutImage from "../assets/img/timeout.png"
     import loading from "../assets/img/loading.gif"
@@ -34,12 +33,6 @@
         VIEW_STATE_NETWORK_ERROR,
         VIEW_STATE_SUCCESS
     } from "../const/ViewStateConstant";
-
-    const route = useRoute()
-    const router = useRouter()
-    const state = ref<string>("")
-    const loadingImage = ref<string>("")
-    let imageIndex = 0
 
     const props = defineProps({
         viewState: String

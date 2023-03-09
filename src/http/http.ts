@@ -36,7 +36,7 @@ interface InterceptorHooks {
 }
 
 interface HttpRequestConfig extends AxiosRequestConfig {
-    showLoading?: boolean;
+    showLoading?: boolean; //是否展示请求loading
     checkResultCode?: boolean;//是否检验响应结果码
     checkLoginState?: boolean //校验用户登陆状态
     needJumpToLogin?: boolean //是否需要跳转到登陆页面
