@@ -1,5 +1,9 @@
 <template>
-    <ViewStateComp :view-state="viewState" @retry="init">
+    <ViewStateComp :view-state="viewState" :skeleton="true" :custom-skeleton="true" @retry="init">
+        <!--绑定骨架屏-->
+        <template v-slot:skeleton>
+            <HomeSkeleton></HomeSkeleton>
+        </template>
         <div class="vertical-layout" ref="homeDiv">
             <van-pull-refresh v-model="loading" @refresh="onRefresh">
                 <div class="vertical-layout">
@@ -56,6 +60,7 @@
     import {BannerModelChild} from "../model/BannerModel";
     import ViewStateComp from "../components/ViewStateComp.vue";
     import {useRequestStatus} from "../hooks/useRequestStatus";
+    import HomeSkeleton from "../skeleton/homeSkeleton.vue";
 
     const homeDiv = ref<HTMLElement | null>(null)
 

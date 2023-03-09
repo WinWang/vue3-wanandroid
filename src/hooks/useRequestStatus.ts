@@ -1,7 +1,14 @@
 import type {Ref} from "vue";
 import {ref} from "vue";
-import {VIEW_STATE_EMPTY, VIEW_STATE_ERROR, VIEW_STATE_LOADING, VIEW_STATE_SUCCESS} from "../const/ViewStateConstant";
+import {
+    VIEW_STATE_EMPTY,
+    VIEW_STATE_ERROR,
+    VIEW_STATE_LOADING,
+    VIEW_STATE_NETWORK_ERROR,
+    VIEW_STATE_SUCCESS
+} from "../const/ViewStateConstant";
 import {ApiResponse} from "../http/http";
+import {AxiosError} from "axios";
 
 type LoadStateResult = [
     Ref<string>,
@@ -49,7 +56,11 @@ export function useRequestStatus(viewState: string = VIEW_STATE_LOADING, checkRe
                 }
                 resolve(res)
             }).catch((error) => {
-                viewStatus.value = VIEW_STATE_ERROR
+                if (error instanceof AxiosError) {
+                    viewStatus.value = VIEW_STATE_NETWORK_ERROR
+                } else {
+                    viewStatus.value = VIEW_STATE_ERROR
+                }
                 reject(error)
             })
         })

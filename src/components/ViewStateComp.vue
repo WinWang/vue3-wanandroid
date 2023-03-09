@@ -1,23 +1,39 @@
 <template>
+    <!--    成功状态-->
     <slot v-if="viewState===VIEW_STATE_SUCCESS"></slot>
+    <!--普通错误状态-->
     <div v-else-if="viewState===VIEW_STATE_ERROR" class="loading-content-wrap">
         <van-image width="200px" :src="emptyImage"></van-image>
-        <div class="loading-text-tips">暂无数据</div>
+        <div class="loading-text-tips">数据异常</div>
         <div class="loading-text-button" @click="retryClick">点我重试</div>
     </div>
+    <!--网络错误状态-->
     <div v-else-if="viewState===VIEW_STATE_NETWORK_ERROR" class="loading-content-wrap">
         <van-image width="200px" :src="timeoutImage"></van-image>
-        <div class="loading-text-tips">暂无数据</div>
+        <div class="loading-text-tips">网络异常</div>
         <div class="loading-text-button" @click="retryClick">点我重试</div>
     </div>
+    <!--空页面状态-->
     <div v-else-if="viewState===VIEW_STATE_EMPTY" class="loading-content-wrap">
         <van-image width="200px" :src="emptyImage"></van-image>
         <div class="loading-text-tips">暂无数据</div>
         <div class="loading-text-button" @click="retryClick">点我重试</div>
     </div>
-    <div v-else class="loading-content-wrap">
-        <van-image :src="loading"></van-image>
+    <!--骨架屏或者loading-->
+    <div v-else>
+        <!--骨架屏-->
+        <template v-if="skeleton">
+            <template v-for="(item,index) in skeletonSize">
+                <slot name="skeleton" v-if="customSkeleton"></slot>
+                <van-skeleton v-else title :row="3" style="margin-top: 10px;margin-bottom: 10px"></van-skeleton>
+            </template>
+        </template>
+        <!--普通loading-->
+        <div v-else class="loading-content-wrap">
+            <van-image :src="loading"></van-image>
+        </div>
     </div>
+
 </template>
 
 <!--/*******************************Script-Start**********************************************/-->
@@ -29,13 +45,32 @@
 
     import {
         VIEW_STATE_EMPTY,
-        VIEW_STATE_ERROR,
+        VIEW_STATE_ERROR, VIEW_STATE_LOADING,
         VIEW_STATE_NETWORK_ERROR,
         VIEW_STATE_SUCCESS
     } from "../const/ViewStateConstant";
 
     const props = defineProps({
-        viewState: String
+        //页面状态
+        viewState: {
+            type: String,
+            default: VIEW_STATE_LOADING
+        },
+        //是否骨架屏
+        skeleton: {
+            type: Boolean,
+            default: false,
+        },
+        //自定义骨架屏
+        customSkeleton: {
+            type: Boolean,
+            default: false
+        },
+        //是否列表类骨架屏-列表默认长度
+        skeletonSize: {
+            type: Number,
+            default: 1
+        }
     })
     const emits = defineEmits(["retry"])
     const retryClick = () => {
