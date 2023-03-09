@@ -7,8 +7,9 @@
 4、axios中整合TypeScript针对请求的范型封装（例如：单个接口是否需要登陆判断，通过请求结果码判断是否需要异常响应，请求接口是否需要loading弹窗等等；通过HttpConfig配置）<br>
 5、pinia和plugin-pinia-persist插件在项目中的运用（类似vuex的使用，记录用户登陆状态以及用户信息等）<br>
 6、ref配合provide以及inject结合使用场景<br>
-7、结合hooks和Component封装页面网络请求状态展示（加载中、加载成功、加载失败页面、空页面、网络错误页面）
-8、解决tab页面keepAlive路由导致页面滚动位置异常情况（pinia记录滚动高度+路由监听）
+7、结合hooks和Component封装页面网络请求状态展示（加载中、加载成功、加载失败页面、空页面、网络错误页面）<br>
+8、解决tab页面keepAlive路由导致页面滚动位置异常情况（pinia记录滚动高度+路由监听）<br>
+9、页面添加骨架屏状态封装集成（homePage.vue已替换）
 
 ## 其他一些学习练手的项目
 
@@ -45,4 +46,15 @@
 <img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/8.png" width="33%">
 </div>
 
+<br/>
 
+<div style="display: flex; flex-direction: row">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/9.png" width="33%">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/10.png" width="33%">
+</div>
+
+<br/>
+
+<div style="display: flex; flex-direction: row">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/11.png" width="33%">
+</div>
