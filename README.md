@@ -19,6 +19,12 @@
 
 **Vue2版本**WanAndroid项目链接(Vue2+vuex+vant+axios)：https://github.com/WinWang/Vue-WanAndroid <br>
 
+<div style="display: flex; flex-direction: row">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/9.png" width="33%">
+<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/10.png" width="33%">
+</div>
+
+<br/>
 
 <div style="display: flex; flex-direction: row">
 <img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/1.png" width="33%">
@@ -44,13 +50,6 @@
 <div style="display: flex; flex-direction: row">
 <img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/7.png" width="33%">
 <img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/8.png" width="33%">
-</div>
-
-<br/>
-
-<div style="display: flex; flex-direction: row">
-<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/9.png" width="33%">
-<img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/10.png" width="33%">
 </div>
 
 <br/>
