@@ -19,6 +19,38 @@
 
 **Vue2版本**WanAndroid项目链接(Vue2+vuex+vant+axios)：https://github.com/WinWang/Vue-WanAndroid <br>
 
+## 应用截图图片 <br/>
+
+<div style="display: flex; flex-direction: row">
+<img src="https://s2.loli.net/2023/04/12/J3xp1bEDslWLu8c.png" width="30%">
+<img src="https://s2.loli.net/2023/04/12/7OFd2nzrMioVSew.png" width="30%">
+<img src="https://s2.loli.net/2023/04/12/mw5jpG3uCWKM7IP.png" width="30%">
+</div>
+<br/>
+
+<div style="display: flex; flex-direction: row">
+<img src="https://s2.loli.net/2023/04/12/aVH7Z4vYCr3iATg.png" width="30%">
+<img src="https://s2.loli.net/2023/04/12/rI6gOPwBenyRtNV.png" width="30%">
+<img src="https://s2.loli.net/2023/04/12/vpTXQaAVESs2KY7.png" width="30%">
+</div>
+<br/>
+
+<div style="display: flex; flex-direction: row">
+<img src="https://s2.loli.net/2023/04/12/hUYnG3BPxiSMWd6.png" width="30%">
+<img src="https://s2.loli.net/2023/04/12/CfSrgLeT9MUqNjv.png" width="30%">
+<img src="https://s2.loli.net/2023/04/12/Oj3JxmVv5N6HCiE.png" width="30%">
+</div>
+<br/>
+
+<div style="display: flex; flex-direction: row">
+<img src="https://s2.loli.net/2023/04/12/hdADNVEr8ZQocqb.png" width="30%">
+<img src="https://s2.loli.net/2023/04/12/Zde5KQR7a1CcmzN.png" width="30%">
+</div>
+<br/>
+
+
+
+## github图片 <br/>
 <div style="display: flex; flex-direction: row">
 <img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/9.png" width="33%">
 <img src="https://github.com/WinWang/vue3-wanandroid/blob/master/screenShot/10.png" width="33%">
