@@ -21,6 +21,10 @@
 
 **Vue2版本**WanAndroid项目链接(Vue2+vuex+vant+axios)：https://github.com/WinWang/Vue-WanAndroid <br>
 
+**Android组件化项目**ReadingGallery链接(jetpack+kotlin+koin+couroutine)：https://github.com/WinWang/ReadingGallery <br>
+
+**Android组件化项目初始化工具**ApplicationInit链接(gradle-plugin+注解APT+ASM)：https://github.com/WinWang/ApplicationInit <br>
+
 ## 应用截图图片 <br/>
 
 <div style="display: flex; flex-direction: row">
