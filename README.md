@@ -13,6 +13,8 @@
 
 ## 其他一些学习练手的项目
 
+**鸿蒙Harmony版本**的开眼App链接(ArkTs+ArkUI+API9)：https://github.com/WinWang/HarmoneyOpenEye
+
 **Flutter版本**开眼App链接(getx+retrofit+dio+jsonserialize+自定义控件demo)：https://github.com/WinWang/open_eye <br>
 
 **Flutter版本**的音乐播放App链接(getx+retrofit+dio)：https://github.com/WinWang/music_listener <br>
